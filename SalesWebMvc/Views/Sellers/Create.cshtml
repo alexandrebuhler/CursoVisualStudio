@@ -1,0 +1,33 @@
+@model SalesWebMvc.Models.Seller;
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Sellers";
+}
+
+<h6>@ViewData["Title"]</h6>
+
+<hr />
+
+<div class="col-sm-4">
+    <form asp-action="Create">
+        <div class="form-group">
+            <label asp-for="Name" class="control-label"></label>
+            <input asp-for="Name" class="form-control">
+        </div>
+        <div class="form-group">
+            <label asp-for="Email" class="control-label"></label>
+            <input asp-for="Email" type="email" class="form-control" placeholder="Enter email">
+        </div>
+        <div class="form-group">
+            <label asp-for="BirthDate" class="control-label"></label>
+            <input asp-for="BirthDate" class="form-control">
+        </div>
+        <div class="form-group">
+            <label asp-for="BaseSalary" class="control-label"></label>
+            <input asp-for="BaseSalary" class="form-control">
+        </div>
+        <div class="form-group">
+            <input type="submit" value="Create" class="btn btn-primary" />
+        </div>
+    </form>
+</div>
