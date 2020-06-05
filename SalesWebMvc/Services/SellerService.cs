@@ -1,11 +1,10 @@
-﻿using System;
-using SalesWebMvc.Data;
-using SalesWebMvc.Models;
+﻿using SalesWebMvc.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using SalesWebMvc.Services.Exceptions;
-using System.Threading.Tasks;
 
 namespace SalesWebMvc.Services
 {
@@ -13,17 +12,17 @@ namespace SalesWebMvc.Services
     {
         private readonly SalesWebMvcContext _context;
 
-        public SellerService (SalesWebMvcContext context)
+        public SellerService(SalesWebMvcContext context)
         {
             _context = context;
         }
 
         public async Task<List<Seller>> FindAllAsync()
         {
-            return await _context.Seller.OrderBy(x => x.Name).ToListAsync();
+            return await _context.Seller.ToListAsync();
         }
 
-        public async Task InsertAsync (Seller obj)
+        public async Task InsertAsync(Seller obj)
         {
             _context.Add(obj);
             await _context.SaveChangesAsync();
@@ -31,10 +30,10 @@ namespace SalesWebMvc.Services
 
         public async Task<Seller> FindByIdAsync(int id)
         {
-            return await _context.Seller.Include(obj => obj.Department).FirstOrDefaultAsync (obj => obj.Id == id);
+            return await _context.Seller.Include(obj => obj.Department).FirstOrDefaultAsync(obj => obj.Id == id);
         }
 
-        public async Task RemoveAsync (int id)
+        public async Task RemoveAsync(int id)
         {
             try
             {
@@ -42,13 +41,13 @@ namespace SalesWebMvc.Services
                 _context.Seller.Remove(obj);
                 await _context.SaveChangesAsync();
             }
-            catch (DbUpdateException e)
+            catch (DbUpdateException)
             {
-                throw new IntegrityException(e.Message);
+                throw new IntegrityException("Can't delete seller because he/she has sales");
             }
         }
 
-        public async Task UpdateAsync (Seller obj)
+        public async Task UpdateAsync(Seller obj)
         {
             bool hasAny = await _context.Seller.AnyAsync(x => x.Id == obj.Id);
             if (!hasAny)
@@ -60,11 +59,10 @@ namespace SalesWebMvc.Services
                 _context.Update(obj);
                 await _context.SaveChangesAsync();
             }
-            catch (DbConcurrencyException e)
+            catch (DbUpdateConcurrencyException e)
             {
                 throw new DbConcurrencyException(e.Message);
             }
         }
-
     }
 }

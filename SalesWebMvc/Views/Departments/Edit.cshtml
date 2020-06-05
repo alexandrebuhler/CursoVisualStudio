@@ -1,14 +1,15 @@
-@model SalesWebMvc.Models.Department
+﻿@model SalesWebMvc.Models.Department
 
 @{
-    Layout = "_Layout";
-    ViewData["Title"] = "Departments";
+    ViewData["Title"] = "Edit";
 }
 
-<h6>@ViewData["Title"]</h6>
+<h2>Edit</h2>
+
+<h4>Department</h4>
 <hr />
 <div class="row">
-    <div class="col-sm-4">
+    <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
@@ -18,7 +19,7 @@
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="Save" class="btn btn-default" />
             </div>
         </form>
     </div>
